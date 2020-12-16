@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
 
-function App() {
+const useInput = (initialValue) => {
+  const [value, setValue] = useState(initialValue);
+  const onChange = (e) => {
+    setValue(value);
+    // e.preventDefault();
+  }
+  
+  return {value, onChange};
+};
+
+const App = () => {
+  const name = useInput("");
+  console.log({...name});
+  // console.log(name.value);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <form placeholder="Name" {...name} />
+      
     </div>
+    
   );
 }
+
 
 export default App;
