@@ -41,6 +41,12 @@ export const people = [
 		age: 38,
 		gender: "female",
 	},
+	{
+		id: 8,
+		name: "g",
+		age: 42,
+		gender: "male",
+	},
 ]
 
 export const getById = (id) => {
