@@ -1,28 +1,25 @@
 import React from "react"
-import { SubmitHandler, useForm } from "react-hook-form"
+import { gql, useMutation } from "@apollo/client"
+import { login, loginVariables } from "./__generated__/login"
 
-interface IForm {
-	name: string
-	lastname?: string
-}
+const LOGIN_MUTATION = gql`
+	mutation login($username: String!, $password: String!) {
+		login(username: $username, password: $password) {
+			ok
+			token
+			error
+		}
+	}
+`
 
 function App() {
-	const { register, handleSubmit, getValues } = useForm<IForm>()
-	const onValid: SubmitHandler<IForm> = (data) => {
-		console.log(data)
-		const { name, lastname } = getValues()
-	}
-
-	return (
-		<form onSubmit={handleSubmit(onValid)}>
-			<input
-				{...register("name", {
-					required: true,
-				})}
-			/>
-			<input {...register("lastname")} />
-		</form>
-	)
+	const [loginMutation] = useMutation<login, loginVariables>(LOGIN_MUTATION, {
+		variables: {
+			username: "hello",
+			password: "asdf",
+		},
+	})
+	return <h1>Apollo</h1>
 }
 
 export default App
