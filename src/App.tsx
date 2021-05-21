@@ -1,22 +1,27 @@
 import React from "react"
-import styled, { ThemeProvider } from "styled-components"
-import { ourTheme } from "./styles"
+import { SubmitHandler, useForm } from "react-hook-form"
 
-interface IContainerProps {
-	floating: boolean
+interface IForm {
+	name: string
+	lastname?: string
 }
 
-const Container = styled.div<IContainerProps>`
-	background-color: ${(props) => props.theme.bgColor};
-	color: ${(props) => props.theme.fontColor};
-	box-shadow: ${(props) => (props.floating ? "" : "")};
-`
-
 function App() {
+	const { register, handleSubmit, getValues } = useForm<IForm>()
+	const onValid: SubmitHandler<IForm> = (data) => {
+		console.log(data)
+		const { name, lastname } = getValues()
+	}
+
 	return (
-		<ThemeProvider theme={ourTheme}>
-			<Container floating={true}>App</Container>
-		</ThemeProvider>
+		<form onSubmit={handleSubmit(onValid)}>
+			<input
+				{...register("name", {
+					required: true,
+				})}
+			/>
+			<input {...register("lastname")} />
+		</form>
 	)
 }
 
