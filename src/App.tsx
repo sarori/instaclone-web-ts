@@ -1,25 +1,25 @@
-import React from "react"
-import { gql, useMutation } from "@apollo/client"
-import { login, loginVariables } from "./__generated__/login"
-
-const LOGIN_MUTATION = gql`
-	mutation login($username: String!, $password: String!) {
-		login(username: $username, password: $password) {
-			ok
-			token
-			error
-		}
-	}
-`
+import { useState } from "react"
+import { HashRouter as Router, Route, Switch } from "react-router-dom"
+import Home from "./screens/Home"
+import Login from "./screens/Login"
+import NotFound from "./screens/NotFound"
 
 function App() {
-	const [loginMutation] = useMutation<login, loginVariables>(LOGIN_MUTATION, {
-		variables: {
-			username: "hello",
-			password: "asdf",
-		},
-	})
-	return <h1>Apollo</h1>
+	const [isLoggedIn, setIsLoggedIn] = useState(false)
+	return (
+		<div>
+			<Router>
+				<Switch>
+					<Route path="/" exact>
+						{isLoggedIn ? <Home /> : <Login />}
+					</Route>
+					<Route>
+						<NotFound />
+					</Route>
+				</Switch>
+			</Router>
+		</div>
+	)
 }
 
 export default App
